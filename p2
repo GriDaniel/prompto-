@@ -61,3 +61,100 @@ Do not assume any fixed number of layers, modules, or categories from the inform
 Do not hardcode grouping or naming beyond what is explicitly factual.
 
 Determine the most effective structure based on the relationships, responsibilities, and maintainability requirements implied by the facts.
+
+
+
+project/
+│
+├── app/
+│   ├── __init__.py
+│   ├── main.py
+│   ├── config.py
+│   │
+│   ├── api/
+│   │   ├── __init__.py
+│   │   ├── dependencies.py
+│   │   ├── middleware/
+│   │   │   ├── __init__.py
+│   │   │   └── request_logging.py
+│   │   ├── routes/
+│   │   │   ├── __init__.py
+│   │   │   ├── scanner.py
+│   │   │   ├── data.py
+│   │   │   ├── analysis.py
+│   │   │   └── workflows.py
+│   │   └── schemas/
+│   │       ├── __init__.py
+│   │       └── requests.py
+│   │
+│   ├── core/
+│   │   ├── __init__.py
+│   │   ├── models/
+│   │   │   ├── __init__.py
+│   │   │   ├── raw_data.py
+│   │   │   └── processed_data.py
+│   │   ├── exceptions.py
+│   │   └── workflows.py
+│   │
+│   ├── services/
+│   │   ├── __init__.py
+│   │   ├── scanner.py
+│   │   ├── data_store.py
+│   │   ├── transformer.py
+│   │   └── analyzer.py
+│   │
+│   ├── infrastructure/
+│   │   ├── __init__.py
+│   │   ├── hardware/
+│   │   │   ├── __init__.py
+│   │   │   ├── vendor/
+│   │   │   │   ├── __init__.py
+│   │   │   │   ├── bindings.py
+│   │   │   │   └── constants.py
+│   │   │   └── scanner_client.py
+│   │   └── persistence/
+│   │       ├── __init__.py
+│   │       ├── repository.py
+│   │       ├── file_store.py
+│   │       └── serializers/
+│   │           ├── __init__.py
+│   │           ├── xml_serializer.py
+│   │           └── csv_serializer.py
+│   │
+│   ├── di/
+│   │   ├── __init__.py
+│   │   ├── container.py
+│   │   └── wiring.py
+│   │
+│   ├── observability/
+│   │   ├── __init__.py
+│   │   ├── logging/
+│   │   │   ├── __init__.py
+│   │   │   ├── logger.py
+│   │   │   ├── models.py
+│   │   │   ├── decorators.py
+│   │   │   └── utils.py
+│   │   └── websocket/
+│   │       ├── __init__.py
+│   │       ├── handler.py
+│   │       ├── formatter.py
+│   │       ├── models.py
+│   │       └── router.py
+│   │
+│   ├── shared/
+│   │   ├── __init__.py
+│   │   ├── timestamp.py
+│   │   └── exceptions.py
+│   │
+│   └── frontend/
+│       ├── index.html
+│       ├── pages/
+│       │   └── [developer pages]
+│       └── assets/
+│           ├── css/
+│           │   └── [page-specific styles]
+│           └── js/
+│               └── [page-specific scripts]
+│
+├── requirements.txt
+└── .env
