@@ -1,0 +1,73 @@
+We are building an api application. We want the application to be FAANG like In the sense that it is modular within reason, allows for easy understanding of the app function and structure based off the file and folder names, to use simple, conventional and common names for folders and files and to adhere to the best enterprise standard practices while keeping the scope focused on the apps goals and not adding infrastructure or details aside from what is specifically discussed. It is to be lean in this sense (we only have the infrastructure around what is currently and absolutely necessary) but the beautiful craftsmanship of the app structure makes it easy for any new developer to understand, extend,  maintain and update the application. Let us begin. I will now feed the absolute context and purpose of the app to help you create a lean and focused understanding on what it is that we want and what exactly is this application. 
+
+
+
+The api application itself relies on a vendor provided DLL file with which a python file must expose and bind the DLL functions. We then need some wrapper around these DLL functions to expose them so that other parts of the app can use them, up to the resolution of a high level api call, which at some point in the low level may need to make a DLL based call to communicate with the hardware.
+
+
+
+The rest of the api app infrastructure rests on this notion: without the hardware connection, we cannot do anything. So, naturally the next cornerstone is the layer of persisting the data. Persisting the data is keeping a hold/vigilant track of the current set of collected raw data from the hardware directly and also the set of processed data that is generated from other parts of the app (will be discussed) it must keep track of these sets of data but also make them easy to access the state of (I.e get get a copy, a shallow copy, etc.. to. Be able to access the underlying sets of data), change/update the state and to be able to load data/update the state using files and to be able to save the current state of the data to files as well. We are only assuming CSV and XML file formats for the raw and processed sets of data we track. All of this I  consider to be the layer of persisting the data we collect and have processed. 
+
+
+
+Another layer is the processing layer. This one is straightforward. It needs raw data to work with and uses input raw data coming from somewhere and processes it intocável the processed data format. 
+
+
+
+Another and final layer is the analysis layer. This one is straightforward. It also needs either raw or processed data to work with. It uses these data’s to perform analysis such as performance modelling, diameter fitting, circle fitting, angle calculations, etc.
+
+
+
+All these layers provide sufficient capabilities for a developer to perform any workflow they want, and ultimately that workflow can use a combination of any layer but at most all the layers together, that’s the beauty. 
+
+
+
+For example, if I want to call the api to perform a full scan analysis, that would involve hardware communication for the data collection, repository communication to store the collected data, data processing to process then store the stored and collected raw data, and data analysis communication to analyze the stored processed data. Or perhaps the developer may just want to get the current version of the hardware or simply save the data collected so far. Suddenly we need far fewer layers but ultimately  at least one of them will be needed. 
+
+
+
+This is what our app is based on. Developers coming in and requesting api calls
+
+Of varying complexity that are ultimately resolved through some combination of those layers depending on the nature of the api call. The question is, how do We best structure the app? We know the black box behaviour but what is the cleanest and most world class way to structure it? The core goals are ultimate developer ease and discoverability, easy understanding,  maintenance, and updating and for the app to naturally be able to scale to any number of api calls because adding a new one and wiring it up to work becomes so easy for developers. 
+
+
+
+Our app has some basic and fixed concepts, we don’t need to bloat the app and add unnecessary folders or files beyond the ones that encapsulate and resolve our problem and the basic fixes concepts we have.
+
+
+
+Models: really only two, one for the raw data set and its attributed and structure and the same for the processed data set that are expected.
+
+
+
+Payload validation schemas: we have the need for these as well to define schemas for the api calls
+
+
+
+Custom logging: we have our own logging system. The logging system has a setup entry file to configure the custom logger, its own models, and it has 1 custom formatter and 1 custom handler that are web sockets specific. 
+
+
+
+Custom exceptions: yes our app has custom exceptions we define and use throughout
+
+
+
+Fixed file formats: the xml and CSV file formats are fixed and expected
+
+
+
+Constants from the DLL vendor that are referenced and used in the app
+
+
+
+We currently only have one global utility and that is to get a formatted timestamp as a string as one function 
+
+
+
+
+
+The generic config file with app related settings
+
+
+
+The question becomes how do we put all this together in the best app structure possible? I’ve given you some core concepts of the app but many other file/folder decisions and other structure decisions need to be made. Remember the emphasis to only design and structure around what actually encapsulates the pure functionality. 
