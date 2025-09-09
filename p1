@@ -1,0 +1,28 @@
+Core Components 
+
+Central Topic Registry: Single location defining all available topics (/scene/spawn, /scene/delete, /scene/update_pose)
+
+Unified Publishing Interface: Wrapper function that all code calls to publish, taking topic name as parameter
+
+Lazy Publisher Creation: Publishers instantiated on first use, not at startup
+
+CLI→Topic Mapping Registry: Central definition of which CLI commands publish to which topics (static mapping)
+
+File-Level Service Wait Guards: Subscribers wait for their dependencies before subscribing
+
+Broadcast Architecture: Publishers don't know/care about subscribers; consumers independently interpret commands
+
+Scene State Coordinator:
+
+Central service maintaining authoritative object state
+Subscribes to /scene/status topic where spawners publish success/failure
+Maintains state dictionary: {object_id: {gazebo: spawned|failed|absent, moveit: spawned|failed|absent, pose: [...], type: ...}}
+Publishes state changes to /scene/state_updates
+Provides service interface /get_scene_state for queries
+
+Introspection CLI Commands (added to CLI registry):
+
+ros2_system_status --topic X → publishes to /system/query/subscribers → returns active subscribers
+ros2_system_publishers --awaiting → publishes to /system/query/publishers → returns publishers with no subscribers
+ros2_scene_state --object X → queries Scene State Coordinator → returns object status
+ros2_scene_list → queries Scene State Coordinator → returns all objects
