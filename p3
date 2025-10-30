@@ -1,0 +1,15 @@
+Suppose the goal is to build a zipped solution that contains the standalone elements Grafana, Influxdb, Telegraf, along with a demo-like data flow, sourced by python scripts. For example, for MQTT and and OPC UA data. The end goal is to have the app built in a way such that it can be seamlessly deployed via the in-house app center. The app itself is intended to be lightwweight and focused in its business logic, with fundamental emphasis on the following notion:
+
+With regards to the public-facing consumer standpoint:
+
+The app should have an entry point to install all dependencies on their machine once as windows services (Chosen is NSS).
+The app should have an entry point to start/stop the application.
+The app should have an entry point for self-clean up. 
+
+I believe these are the bare-minimum components needed for a POC phase, since the whole idea is to keep the visual component (Grafana) and storage component (Infludb) static, but simply alter the adapter we use (Telegraf), and since its just a matter of modifying the Telegraf configuration file, replicating (for now) with demo-sourced data will not render the usage of said conig file unnecessary. 
+
+The app should have a developer-facing version and a client-facing version, the former used to ultimately output the zip and the latter the zip itself used by public consumers. 
+
+The core of this discussion will be around the developer-facing version, to discuss its logistics. 
+
+The developer-facing version features the experience the developer will go through, from initial clone to final output zipped, to being able to seamlessely understand all steps in between, be able to contribute, and experience a self-documented code structure on their initial visit. We will handle this initial architecture. Let's simulate my though process on how 	
